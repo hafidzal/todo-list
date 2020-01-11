@@ -1,13 +1,44 @@
 import React from "react";
-// import { Card, CardBody, Form, FormInput } from "shards-react";
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import { connect } from "react-redux";
 
-const PendingList = () => (
-    <ListGroup flush>
-        <ListGroupItem disabled>Task #1</ListGroupItem>
-        <ListGroupItem disabled>Task #2</ListGroupItem>
-        <ListGroupItem disabled>Task #3</ListGroupItem>
-    </ListGroup>
-);
+import { getTodoItem } from '../../redux/actions/todoItems';
 
-export default PendingList;
+class CreateEdit extends React.Component{
+  constructor(props) {
+      super(props);
+      this.state = {
+          todoItem: []
+      }
+      
+  };
+  
+  componentDidMount() {
+    this.props.getTodoItem();
+  }
+
+
+  render() {
+    // console.log('HASIL REDUX: ', this.props.todoItems);
+      return(
+          <>
+            <ListGroup flush>
+                <ListGroupItem disabled>{this.props.todoItems}</ListGroupItem>
+            </ListGroup>
+          </>
+      );
+  }
+}
+
+const mapStateToProps = (store) => ({
+    todoItems: store.todoItems.todoItems
+});
+
+const mapDispatchToProps = {
+    getTodoItem
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(CreateEdit);
