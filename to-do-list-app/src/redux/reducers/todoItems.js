@@ -3,7 +3,8 @@ import * as actionTypes from "../constants/todoItems";
 const initialState = {
     dataTodoItem: [],
     todoItems: [],
-    isLoading:false
+    deletedTodoItem: [],
+    completedTodoItem: [],
 };
 
 export default (state = initialState, action) => {
@@ -11,12 +12,17 @@ export default (state = initialState, action) => {
         case actionTypes.ADD_TODO_ITEM:
             return {
             ...state,
-            dataTodoItem: action.payload,
+            dataTodoItem: action.payload
             };
         case actionTypes.GET_TODO_ITEM:
             return {
             ...state,
-            todoItems: action.payload,
+            todoItems: [...state.dataTodoItem, action.payload],
+            };  
+        case actionTypes.GET_DELETED_TODO_ITEM:
+            return {
+            ...state,
+            completedTodoItem: [...state.completedTodoItem, action.payload],
             };   
         default:
             return state;

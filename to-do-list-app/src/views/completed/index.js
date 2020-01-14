@@ -1,9 +1,10 @@
 import React from "react";
 import { Container } from 'reactstrap';
+import CompletedList from "../../components/completed/index";
 
 const Completed = () => (
   <Container>
-      <h1>Page Completed.</h1>
+      <CompletedList />
   </Container>
 );
 

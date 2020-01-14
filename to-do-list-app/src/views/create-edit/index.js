@@ -1,75 +1,67 @@
 import React from "react";
-import { Container, Row, Col, Form, FormGroup, Input, Label, Button } from 'reactstrap';
+import { Container } from 'reactstrap';
 import { connect } from "react-redux";
 
-import InputTodo from "../../components/common/Input";
+import AddTodo from "../../components/createEdit/addTodo";
 import { addTodoItem } from '../../redux/actions/todoItems';
 
 class CreateEdit extends React.Component{
-  constructor(props) {
-      super(props);
+  constructor() {
+      super();
       this.state = {
-          isLoading:false,
-          isButtonDisabled: false,
-          todoItem: '',
+          todoList: [],
+          startDate: new Date(),
+          currentTodoList: { todoItem: '', date: '', status: 'pending', isChecked: false, dueDate: new Date() }
       }
-      
-      this.click = this.click.bind(this);
+
+      this.handleStartDateChange = this.handleStartDateChange.bind(this);
+
   };
   
-  handleChange = (event) => {
-    const input = event.target;
-    const value = input.value;
- 
-    this.setState({ [input.name]: value });
+  handleChange = (e) => {
+    const newTodoItem = e.target.value;
+    const currentTodoList = { todoItem: newTodoItem, date: Date.now(), status: 'pending', isChecked: false, dueDate: new Date() }
+
+    this.setState({ currentTodoList });
   };
 
-  click = () => {
-    const { todoItem } = this.state;
-    this.props.addTodoItem(todoItem);
-    // localStorage.setItem('todoItem', todoItem);
-    // localStorage.setItem('user', rememberMe ? user : '');
+  addTodoList = (e) => {
+    e.preventDefault()
+    const newTodoList = this.state.currentTodoList
+    if(newTodoList.todoItem !== ''){
+      const todoList = [...this.state.todoList, newTodoList]
+      
+      this.props.addTodoItem(todoList);
+
+      this.setState({
+        todoList: todoList,
+        currentTodoList: { todoItem: '', date: '', status: 'pending', isChecked: false, dueDate: new Date() }
+      })
+    }
+  };
+
+  handleStartDateChange = (value) => {
+    this.setState({
+       dueDate: new Date(value)
+    });
   }
 
   render() {
       return(
           <>
             <Container>
-                <Row>
-                  <Col>
-                    <Form onSubmit={this.click}>
-                      {/* <InputTodo value={this.state.todo} change={this.handleChange} /> */}
-                      <FormGroup>
-                          <Input 
-                              type="text" 
-                              name="todoItem" 
-                              id="todoItem"
-                              placeholder="What you want to do?"
-                              value={this.state.todo} 
-                              onChange={this.handleChange} />
-                      </FormGroup>
-                      <FormGroup>
-                        <Label for="dueDate">Due Date</Label>
-                        <Input
-                          type="date"
-                          name="dueDate"
-                          id="dueDate"
-                          placeholder="due date"
-                        />
-                      </FormGroup>
-                      <FormGroup>
-                        <Button color="info">Submit</Button>
-                      </FormGroup>
-                    </Form>
-                  </Col>
-                </Row>
+                <AddTodo 
+                  addTodoList={this.addTodoList}
+                  handleChange={this.handleChange}
+                  currentTodoList={this.state.currentTodoList}
+                  handleStartDateChange={this.handleStartDateChange}
+                  dueDate={this.state.dueDate}
+                />
             </Container>
           </>
       );
   }
 }
-
-// export default CreateEdit
 
 // const mapStateToProps = (store) => ({
 //   isLoading: store.order.isLoading
