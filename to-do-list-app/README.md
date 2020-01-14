@@ -1,3 +1,7 @@
+# todo-list
+Hi this is my To Do List Application, similiar to Trello. Using ReactJS as JavaScript library, React-Router for page navigation, Redux as state management and Local storage to keep the data. Thanks!
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
