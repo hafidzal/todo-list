@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, Badge } from 'reactstrap';
+import { Container, Row, Col, Button, Badge } from 'reactstrap';
 import { connect } from "react-redux";
-import { isEqual } from 'lodash';
+import moment from 'moment';
 import { getCompletedItem } from '../../redux/actions/todoItems';
 
 class Completed extends React.Component{
@@ -36,8 +36,9 @@ class Completed extends React.Component{
     //   });
   }
 
-  renderStatus = (status) => {
-    if(status === 'pending') {
+  renderStatus = (data) => {
+    //   console.log('status: ', status);
+    if(data.status === 'pending') {
         return(
           <Badge color="danger">Pending</Badge>
         )
@@ -49,15 +50,25 @@ class Completed extends React.Component{
 }
 
   render() {
+    //   console.log('state: ', this.state.completeItem);
       if(this.state.completeItem[0] !== null) {
         return(
             <>
               <ul>
                   {
-                      this.state.completeItem.map(data => (
+                      this.state.completeItem.map(data =>(
                         <div key={data.date}>
                         <li>
-                            {data.todoItem} {this.renderStatus(data.status)} <Button className="ml-3" onClick={() => this.restoreTodo(data)}>Restore</Button>
+                            <Container>
+                                <Row>
+                                    <Col>{data.todoItem}</Col>
+                                    <Col>{this.renderStatus(data)}</Col>
+                                    <Col>{moment(data.dueDate).format('MMMM Do YYYY, h:mm a')}</Col>
+                                    <Col>
+                                    <Button className="ml-3" onClick={() => this.restoreTodo(data)}>Restore</Button>
+                                    </Col>
+                                </Row>
+                                </Container>
                         </li>
                         <hr />
                         </div>
@@ -78,7 +89,7 @@ class Completed extends React.Component{
 }
 
 const mapStateToProps = (store) => ({
-    completeTodoItem: store.todoItems.completeTodoItem
+    completedTodoItem: store.todoItems.completedTodoItem
 });
 const mapDispatchToProps = {
     getCompletedItem

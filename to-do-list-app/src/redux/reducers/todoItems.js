@@ -22,8 +22,13 @@ export default (state = initialState, action) => {
         case actionTypes.GET_DELETED_TODO_ITEM:
             return {
             ...state,
-            completedTodoItem: [...state.completedTodoItem, action.payload],
-            };   
+            deletedTodoItem: [...state.deletedTodoItem, action.payload],
+            }; 
+        case actionTypes.GET_COMPLETED_TODO_ITEM:
+            return {
+                ...state,
+                completedTodoItem: [...state.completedTodoItem, action.payload],
+                };   
         default:
             return state;
     }

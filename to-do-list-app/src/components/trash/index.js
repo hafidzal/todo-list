@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, Badge } from 'reactstrap';
+import { Container, Row, Col, Button, Badge } from 'reactstrap';
 import { connect } from "react-redux";
-import { isEqual } from 'lodash';
+import moment from 'moment';
 import { getDeletedItem } from '../../redux/actions/todoItems';
 
 class Trash extends React.Component{
@@ -49,7 +49,7 @@ class Trash extends React.Component{
 }
 
   render() {
-      console.log('TRASH ITEM ', this.state.trashItem);
+      // console.log('TRASH ITEM ', this.state.trashItem);
       if(this.state.trashItem[0] !== null) {
         return(
             <>
@@ -58,7 +58,17 @@ class Trash extends React.Component{
                       this.state.trashItem.map(data => (
                         <div key={data.date}>
                         <li>
-                            {data.todoItem} {this.renderStatus(data.status)} <Button className="ml-3" onClick={() => this.restoreTodo(data)}>Restore</Button>
+                              <Container>
+                                <Row>
+                                    <Col>{data.todoItem}</Col>
+                                    <Col>{this.renderStatus(data)}</Col>
+                                    <Col>{moment(data.dueDate).format('MMMM Do YYYY, h:mm a')}</Col>
+                                    <Col>
+                                    <Button className="ml-3" onClick={() => this.restoreTodo(data)}>Restore</Button>
+                                    </Col>
+                                </Row>
+                              </Container>
+                            {/* {data.todoItem} {this.renderStatus(data.status)} <Button className="ml-3" onClick={() => this.restoreTodo(data)}>Restore</Button> */}
                         </li>
                         <hr />
                         </div>
