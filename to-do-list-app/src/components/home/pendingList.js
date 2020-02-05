@@ -31,7 +31,6 @@ class PendingList extends React.Component{
 
   deleteTodo = (item) => {
     const filteredItems = this.state.filteredItems[0].filter(data => {
-            console.log('Keluaran item: ', data, ' date: ', item.date);
             this.props.deleteTodoItem(item);
             return data.date !== item.date;
       });
